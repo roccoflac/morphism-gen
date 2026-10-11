@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# Derived from caelestia-cli (utils/wallpaper.py) at commit
+# 82039823c0d538f8fcaf18a1636bf244bd583da7. caelestia-cli is GPL-3.0.
 """Wallpaper preprocessing, copied verbatim from caelestia-cli.
 
 The two functions here are the exact ones used by caelestia-shell to turn a

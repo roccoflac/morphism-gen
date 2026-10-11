@@ -1,3 +1,8 @@
+# Disclaimer
+This was entirely vibe-coded, this is a project meant purely for personal use
+and is only a public GitHub repo because I wanted it to be a Nix flake without
+too many abstractions.
+
 # morphism-gen
 
 A standalone, reusable Material You theme generator — similar in spirit to
@@ -32,30 +37,41 @@ wallpaper pattern, mode, variant, and flavour.
 
 ## Install
 
-### NixOS / home-manager (recommended here)
+### Nix flake (recommended)
 
-On NixOS the dependencies come from nixpkgs, so there is no `pip install` step
-(the Nix Python is `EXTERNALLY-MANAGED` and ships without pip). A
-`default.nix` is provided that builds the `morphism-gen` binary with
-`buildPythonApplication`.
-
-Add this to the `home.packages` list in your home-manager configuration
-(e.g. `/etc/nixos/home-manager/packages.nix`):
-
-```nix
-(pkgs.callPackage /home/rocco/projects/morphism-gen/default.nix { })
-```
-
-Then apply:
+This repository is a flake. Run, build, or develop against it directly:
 
 ```sh
-sudo nixos-rebuild switch --flake /etc/nixos#nixos
+nix run github:roccoflac/morphism-gen -- --help   # run without installing
+nix build github:roccoflac/morphism-gen           # ./result/bin/morphism-gen
+nix develop github:roccoflac/morphism-gen         # dev shell (python + deps)
+nix flake check github:roccoflac/morphism-gen     # runs the colour-parity suite
 ```
 
-`morphism-gen` is now on your `PATH`, and both `materialyoucolor` and `pillow`
-are supplied by nixpkgs — the same versions the parity tests run against.
+To install declaratively, add it as a flake input and reference the package.
+In a NixOS/home-manager flake (e.g. `/etc/nixos/flake.nix`):
 
-### Run from source (no install, any system)
+```nix
+inputs.morphism-gen = {
+  url = "github:roccoflac/morphism-gen";
+  inputs.nixpkgs.follows = "nixpkgs";   # share the host's nixpkgs (see below)
+};
+```
+
+then, in a home-manager module:
+
+```nix
+{ pkgs, morphism-gen, ... }:
+{
+  home.packages = [ morphism-gen.packages.${pkgs.system}.default ];
+}
+```
+
+`inputs.nixpkgs.follows = "nixpkgs"` makes the flake use your host's nixpkgs, so
+`materialyoucolor`, `pillow`, and the Python interpreter stay identical to the
+ones the parity tests run against, with no duplicate nixpkgs closure.
+
+### Run from source (no install)
 
 If your interpreter already has the dependencies, run straight from the tree:
 
@@ -185,10 +201,23 @@ they run directly on the Nix Python env:
 PYTHONPATH=src python3 -m unittest discover -s tests -t tests -v
 ```
 
+The same suite is wired up as a Nix check, so `nix flake check` enforces the
+colour-parity guarantee in the sandbox:
+
+```sh
+nix flake check
+```
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0** (see
+[`LICENSE`](LICENSE)). It incorporates code vendored from caelestia-cli, which
+is GPL-3.0, so the combined work is GPL-3.0.
+
 ## Attribution
 
 The colour engine (`colourfulness.py`, `material/score.py`,
 `material/generator.py`) and the wallpaper helpers (`wallpaper.py`) are vendored
 verbatim from **caelestia-cli** at commit
-`82039823c0d538f8fcaf18a1636bf244bd583da7` and are licensed under their original
-terms. Everything else is original to this project.
+`82039823c0d538f8fcaf18a1636bf244bd583da7`, which is licensed under the GNU
+General Public License v3.0. Everything else is original to this project.

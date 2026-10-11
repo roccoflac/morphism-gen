@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# Vendored verbatim from caelestia-cli (utils/colourfulness.py), commit
+# 82039823c0d538f8fcaf18a1636bf244bd583da7. caelestia-cli is GPL-3.0; see the
+# project README for full attribution.
 import math
 
 from PIL import Image

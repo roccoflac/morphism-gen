@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Vendored, unmodified colour engine from caelestia-cli.
 
 Source: caelestia-cli `82039823c0d538f8fcaf18a1636bf244bd583da7`

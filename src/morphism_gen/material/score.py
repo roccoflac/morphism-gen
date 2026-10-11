@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# Vendored verbatim from caelestia-cli (utils/material/score.py), commit
+# 82039823c0d538f8fcaf18a1636bf244bd583da7. caelestia-cli is GPL-3.0; see the
+# project README for full attribution.
 from materialyoucolor.dislike.dislike_analyzer import DislikeAnalyzer
 from materialyoucolor.hct import Hct
 from materialyoucolor.quantize import ImageQuantizeCelebi

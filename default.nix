@@ -23,7 +23,8 @@ ps.buildPythonApplication {
 
   meta = {
     description = "Standalone Material You theme generator with caelestia-exact colour extraction";
-    license = lib.licenses.mit;
+    homepage = "https://github.com/roccoflac/morphism-gen";
+    license = lib.licenses.gpl3Only;
     mainProgram = "morphism-gen";
     platforms = lib.platforms.linux;
   };
